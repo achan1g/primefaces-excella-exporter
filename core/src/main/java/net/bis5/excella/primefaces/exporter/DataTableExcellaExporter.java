@@ -26,6 +26,7 @@ import org.primefaces.component.datatable.DataTable;
 import org.primefaces.component.datatable.export.DataTableExporter;
 import org.primefaces.component.export.ExportConfiguration;
 import org.primefaces.component.export.Exporter;
+import org.primefaces.component.remotecommand.RemoteCommand;
 
 /**
  * ExCella Reportsを用いてDataTableのデータを出力する{@link Exporter}実装
@@ -221,6 +222,10 @@ public class DataTableExcellaExporter extends DataTableExporter implements ExCel
         String value = super.exportValue(context, component);
         if (component.getClass().getSimpleName().equals("UIInstructions")) {
             return exportUIInstructionsValue(context, component, value);
+        }
+        else if (component instanceof RemoteCommand) {
+        	// RemoteCommandの場合に、"org.primefaces.component.remotecommand.RemoteCommand@xxxxxxx"がexportValueに含まれるのを防ぐため空文字を返却する
+        	return "";
         }
         return value;
     }
